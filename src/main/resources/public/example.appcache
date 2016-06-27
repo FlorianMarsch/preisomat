@@ -1,2 +1,7 @@
 CACHE MANIFEST
 index.html
+http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js
+https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css
+https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css
+http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css
+https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js
