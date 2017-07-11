@@ -1,210 +1,254 @@
-<!doctype html>
-<html lang="en" manifest="example.appcache">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="jquery.min.js"></script>
-
-<script src="angular.min.js"></script>
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="bootstrap.min.css">
-
-<!-- Optional theme -->
-<link rel="stylesheet" href="bootstrap-theme.min.css" >
-<link rel="stylesheet" href="font-awesome.min.css">
-
-<!-- Latest compiled and minified JavaScript -->
-<script src="bootstrap.min.js" ></script>
-
-
-<body>
-
-
-
-
-
-
-<script>
-var app = angular.module('myApp', []);
-   
-app.controller('customersCtrl', function($scope,$timeout, $http) {
-	var timeout = $timeout;
-    var scope = $scope;
-	var http = $http;
-	var me = this;
-	
-	
-	if(typeof localStorage.init == 'undefined' ){
-		localStorage.syncDate = null;
-		localStorage.syncs = JSON.stringify([]);
-		localStorage.costs = JSON.stringify([]);
-		localStorage.charges = JSON.stringify([]);
-		localStorage.cost = 0;
-		localStorage.rate = 0;
-		localStorage.init = true;
-	}
-	
-	scope.active='kosten';
-	scope.lastSync = localStorage.syncDate;
-	scope.warning = JSON.parse(localStorage.syncs).length > 0;
-	scope.new = {};
-	scope.new.name;
-	scope.new.description;
-	scope.new.price;
-	scope.new.currency ="EUR";
-	scope.syncs = JSON.parse(localStorage.syncs);
-	scope.costs = JSON.parse(localStorage.costs);
-	scope.cost = JSON.parse(localStorage.cost);
-	scope.charges = JSON.parse(localStorage.charges);
-	scope.rate =  JSON.parse(localStorage.rate);
-	
-	scope.startSync = function(){
-		scope.active='loading';
-		timeout(function() {
-			scope.sync();
-		}, 1);
-		
-	};
-	scope.sync = function(){
-		
-		$http.post('/api/sync', JSON.stringify(scope.syncs), {})
-		.then(function (data){
-			scope.cost = data.data.data.cost;
-			localStorage.cost = JSON.stringify(scope.cost);
+<html lang="en" >
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+		<title></title>
+		<meta name="description" content="">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- Angular Material style sheet -->
+		<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" >
+	</head>
+	<body ng-app="myApp"  ng-cloak >
+		<!--
+			Your HTML content here
+			-->  
+		<div ng-controller="formCtrl" layout="column" ng-cloak class="md-inline-form">
+			<md-toolbar class="md-accent">
+				<div class="md-toolbar-tools">
+					<h2>PREIS-O²-MAT</h2>
+					 <span flex></span>
+					<md-button class="md-icon-button" ng-show="active == 'kosten'" ng-click="gotoAdd()">
+			          <md-icon >add</md-icon>
+			        </md-button>
+				</div>
+			</md-toolbar>
+			<md-nav-bar
+				ng-hide="active == 'loading'"
+				md-selected-nav-item="active"
+				nav-bar-aria-label="navigation links">
+				<md-nav-item md-nav-click="goto('kosten')" name="kosten">
+					Kosten
+				</md-nav-item>
+				<md-nav-item md-nav-click="goto('rechnung')" name="rechnung">
+					Verrechnung
+				</md-nav-item>
+				<md-nav-item md-nav-click="goto('sync')" name="sync">
+					<md-icon ng-show="warning === true" >warning</md-icon>
+					Sync
+				</md-nav-item>
+			</md-nav-bar>
+			<md-content layout-padding ng-show="active == 'loading'">
+				<div layout="row" layout-sm="column" layout-align="space-around">
+					<md-progress-circular md-mode="indeterminate"></md-progress-circular>
+				</div>
+			</md-content>
+			<md-content layout-padding ng-show="active == 'kosten'">
+				<md-card >
+					<md-card-title>
+						<md-card-title-text>
+							<span class="md-headline">Es sind {{cost}}€ Kosten angefallen :</span>
+						</md-card-title-text>
+					</md-card-title>
+					<md-card-content>
+						<md-list flex>
+							<md-list-item ng-repeat="x in costs" ng-click="null">
+								<p>{{x.description}} {{x.price}}€</p>
+								<md-chips>
+									<md-chip>{{x.person}}</md-chip>
+								</md-chips>
+							</md-list-item>
+						</md-list>
+					</md-card-content>
+				</md-card>
+			</md-content>
+			<md-content layout-padding ng-show="active == 'rechnung'">
+				<md-card >
+					<md-card-content>
+						<md-list flex>
+							<md-list-item ng-repeat="x in charges" ng-click="null">
+								<p>{{x.person}} {{x.charge}}€ </p>
+								<md-chips>
+									<md-chip ng-class="x.saldo < 0 ? 'label label-danger':'label label-success'">{{x.saldo}}</md-chip>
+								</md-chips>
+							</md-list-item>
+						</md-list>
+					</md-card-content>
+				</md-card>
+			</md-content>
+			<md-content layout-padding ng-show="active == 'sync'">
+				<md-card >
+					<md-card-title>
+						<md-card-title-text>
+							<span class="md-headline">Zuletzt synchronisiert : {{lastSync}}</span>
+							<span class="md-subhead">SEK in EUR : {{rate}}</span>
+						</md-card-title-text>
+					</md-card-title>
+					<md-card-actions layout="row" layout-align="end center">
+						<md-button class="md-raised md-primary"  ng-click="startSync()">sync now</md-button>
+					</md-card-actions>
+				</md-card>
+			</md-content>
+			<md-content layout-padding ng-show="active == 'add'">
+				<md-card >
+					<md-card-title>
+						<md-card-title-text>
+							<span class="md-headline">Füge einen neuen preisomat hinzu</span>
+						</md-card-title-text>
+					</md-card-title>
+					<md-card-content>
+					<div layout-gt-sm="row">
+						 <md-input-container>
+					        <label>Wer?</label>
+					        <md-select ng-model="new.name" placeholder="Name" required>
+				              <md-option></md-option>
+							  <md-option value="Till">Till</md-option>
+							  <md-option value="Janek">Janek</md-option>
+							  <md-option value="Flo">Flo</md-option>
+							  <md-option value="Jenny">Jenny</md-option>
+				            </md-select>
+					        
+					      </md-input-container>
+						<md-input-container >
+				            <label>Was ?</label>
+				            <input ng-model="new.description" placeholder="Bezeichnung" required>
+				          </md-input-container>
+				          
+				          
+				           <md-input-container>
+				           <label>€</label>
+					        <input
+					        type="number"
+					        min="1" placeholder="Kosten" ng-model="new.price" required>
+					        </md-input-container>
+				          <md-input-container>
+					        <md-select ng-model="new.currency" required>
+							  <md-option value="EUR">EUR</md-option>
+							  <md-option value="SEK">SEK</md-option>
+				            </md-select>
+					        
+					      </md-input-container>
+				          
+				        </div>
+					</md-card-content>
+					<md-card-actions layout="row" layout-align="end center">
+						<md-button class="md-raised md-primary"  ng-click="save()">submit</md-button>
+					</md-card-actions>
+				</md-card>
+			</md-content>
+		</div>
+		<!-- Angular Material requires Angular.js Libraries -->
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-route.js"></script>
+		<!-- Angular Material Library -->
+		<script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script>
+		<!-- Your application bootstrap  -->
+		<script type="text/javascript">    
+			/**
+			 * You must include the dependency on 'ngMaterial' 
+			 */
+			 var app = angular.module('myApp', ['ngMaterial']);
 			
-			scope.costs = data.data.data.costs;
-			localStorage.costs = JSON.stringify(scope.costs);
 			
-			scope.lastSync = data.data.data.date;
-			localStorage.lastSync = JSON.stringify(scope.lastSync);
 			
-			scope.rate = data.data.data.rate;
-			localStorage.rate = JSON.stringify(scope.rate);
 			
-			scope.charges = data.data.data.charging;
-			localStorage.charges = JSON.stringify(scope.charges);
 			
-			scope.syncs = [];
-			localStorage.syncs = JSON.stringify([]);
+			    app.controller('formCtrl', function($scope,$timeout, $http) {
 			
-		
-			scope.active='sync';
-			scope.warning = false;
-		}, function (){alert('Error')});
-	
-	};
-	scope.save = function(){
-		if(scope.new.name == null || scope.new.description == null || scope.new.price == null){
-			alert('Bitte Formular ausfüllen');
-			return;
-		}else{
-			scope.syncs.push(scope.new);
+			
+			var timeout = $timeout;
+			var scope = $scope;
+			var http = $http;
+			var me = this;
+			
+			if(typeof localStorage.init == 'undefined' ){
+				localStorage.syncDate = null;
+				localStorage.syncs = JSON.stringify([]);
+				localStorage.costs = JSON.stringify([]);
+				localStorage.charges = JSON.stringify([]);
+				localStorage.cost = 0;
+				localStorage.rate = 0;
+				localStorage.init = true;
+			}
+			
+			scope.active = 'kosten';
+			scope.lastSync = localStorage.syncDate;
+			scope.warning = JSON.parse(localStorage.syncs).length > 0;
 			scope.new = {};
 			scope.new.name;
 			scope.new.description;
 			scope.new.price;
-			scope.new.currency="EUR";
-			localStorage.syncs= JSON.stringify(scope.syncs);
-			scope.active='sync';
-			scope.warning = true;
-		}
-	};
-	
-});
-	
-	
-	
-</script>
-
-<div class="panel-body" ng-app="myApp" ng-controller="customersCtrl">
-<div class="panel panel-default" ng-show="active == 'loading'">
-Loading
-</div>
-<div class="panel panel-default" ng-hide="active == 'loading'">
-	<ul class="nav nav-tabs">
-		<li role="presentation" ng-class="active =='kosten' ? 'active' : ''">
-			<a href="#" ng-click="active = 'kosten'">Kosten</a>
-		</li>
-		<li role="presentation" ng-class="active =='rechnung' ? 'active' : ''">
-			<a href="#" ng-click="active = 'rechnung'">Verrechnung</a>
-		</li>
-		<li role="presentation" ng-class="active =='sync' ? 'active' : ''">
-			<a href="#" ng-click="active = 'sync'">
-			<span ng-class="warning ? 'label label-danger' :'' ">Sync</span>
+			scope.new.currency ="EUR";
+			scope.syncs = JSON.parse(localStorage.syncs);
+			scope.costs = JSON.parse(localStorage.costs);
+			scope.cost = JSON.parse(localStorage.cost);
+			scope.charges = JSON.parse(localStorage.charges);
+			scope.rate =  JSON.parse(localStorage.rate);
 			
 			
-			</a>
-		</li>
-		<li role="presentation" ng-show="active =='kosten' " class="pull-right">
-			<a href="#">
-				<span class="glyphicon glyphicon-plus"  ng-click="active = 'add'"></span>
-			</a>
-		</li>
-	</ul>
-	
-	<div class="panel-body" ng-show="active =='kosten' ">
-		Es sind {{cost}}€ Kosten angefallen : 
-	</div>
-	
-	<ul class="list-group" ng-show="active =='kosten' ">
-		<li class="list-group-item" ng-repeat="x in costs">{{x.description}} {{x.price}}€ <span class="badge">{{x.person}}</span></li>
-		
-	</ul>
-	
-	<ul class="list-group" ng-show="active =='rechnung' ">
-		<li class="list-group-item" ng-repeat="x in charges">{{x.person}} {{x.charge}}€ <span ng-class="x.saldo < 0 ? 'label label-danger':'label label-success'">{{x.saldo}}</span></li>
-	</ul>
-
-	<div class="panel-body" ng-show="active =='sync' ">
-		Zuletzt synchronisiert : {{lastSync}}
-		<br>
-		SEK in EUR : {{rate}}
-	</div>
-
-	<div class="list-group" ng-show="active =='sync' ">
-		<button type="button" class="list-group-item" ng-click="startSync()">sync now</button>
-	</div>
-	
-	<div class="panel-body" ng-show="active =='add' ">
-		Füge einen neuen preisomat hinzu
-		<br>
-		
-		<div class="input-group input-group-lg">
-		  <span class="input-group-addon" id="sizing-addon1">Name</span>
-		  <select  class="form-control" placeholder="Name" ng-model="new.name">
-		  <option></option>
-		  <option value="Till">Till</option>
-		  <option value="Janek">Janek</option>
-		  <option value="Flo">Flo</option>
-		  <option value="Jenny">Jenny</option>
-		  </select >
-		</div>
-		<br>
-		<div class="input-group input-group-lg">
-		  <span class="input-group-addon" id="sizing-addon1">Was ?</span>
-		  <input type="text" class="form-control" placeholder="Bezeichnung" ng-model="new.description" >
-		</div>
-		<br>
-		<div class="input-group input-group-lg">
-		<div class="input-group-btn">
-			<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{new.currency}} <span class="caret"></span></button>
-			<ul class="dropdown-menu">
-				<li><a href="#" ng-click="new.currency = 'EUR'">EUR</a></li>
-				<li><a href="#" ng-click="new.currency = 'SEK'">SEK</a></li>
-			</ul>
-		</div>
-		  <input type="text" class="form-control" placeholder="Kosten"ng-model="new.price" >
-		  <span class="input-group-addon">.00</span>
-		</div>
-		<br>
-		<button type="submit" class="btn btn-default"  ng-click="save()">Submit</button>
-	</div>
-
-	
-</div>
-</div>
-
-
-</body>
+			scope.goto = function(target){
+				scope.active = target;
+			};
+			scope.gotoAdd = function(){
+				scope.active='add';
+			};
+			
+			
+			scope.startSync = function(){
+				scope.active='loading';
+				timeout(function() {
+					scope.sync();
+				}, 1);
+				
+			};
+			scope.sync = function(){
+				
+				$http.post('/api/sync', JSON.stringify(scope.syncs), {})
+				.then(function (data){
+					scope.cost = data.data.data.cost;
+					localStorage.cost = JSON.stringify(scope.cost);
+					
+					scope.costs = data.data.data.costs;
+					localStorage.costs = JSON.stringify(scope.costs);
+					
+					scope.lastSync = data.data.data.date;
+					localStorage.lastSync = JSON.stringify(scope.lastSync);
+					
+					scope.rate = data.data.data.rate;
+					localStorage.rate = JSON.stringify(scope.rate);
+					
+					scope.charges = data.data.data.charging;
+					localStorage.charges = JSON.stringify(scope.charges);
+					
+					scope.syncs = [];
+					localStorage.syncs = JSON.stringify([]);
+					
+				
+					scope.active='sync';
+					scope.warning = false;
+				}, function (){alert('Error')});
+			
+			};
+			scope.save = function(){
+				if(scope.new.name == null || scope.new.description == null || scope.new.price == null){
+					alert('Bitte Formular ausfüllen');
+					return;
+				}else{
+					scope.syncs.push(scope.new);
+					scope.new = {};
+					scope.new.name;
+					scope.new.description;
+					scope.new.price;
+					scope.new.currency="EUR";
+					localStorage.syncs= JSON.stringify(scope.syncs);
+					scope.active='sync';
+					scope.warning = true;
+				}
+			};
+			});
+		</script>
+	</body>
 </html>
