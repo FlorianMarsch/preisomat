@@ -14,11 +14,11 @@
 			Your HTML content here
 			-->  
 		<div ng-controller="formCtrl" layout="column" ng-cloak class="md-inline-form">
-			<md-toolbar class="md-accent">
+			<md-toolbar class="md-primary">
 				<div class="md-toolbar-tools">
 					<h2>PREIS-O²-MAT</h2>
 					 <span flex></span>
-					<md-button class="md-primary md-icon-button md-fab md-bottom-right" ng-show="active == 'kosten'" ng-click="gotoAdd()">
+					<md-button class="md-accent md-icon-button md-fab md-bottom-right" ng-show="active == 'kosten'" ng-click="gotoAdd()">
 			          <md-icon >add</md-icon>
 			        </md-button>
 				</div>
@@ -141,7 +141,7 @@
 				        </div>
 					</md-card-content>
 					<md-card-actions layout="row" layout-align="end center">
-						<md-button  ng-disabled="kostenForm.$invalid" class="md-raised md-primary"  ng-click="save()">submit</md-button>
+						<md-button  ng-disabled="kostenForm.$invalid" class="md-raised md-accent"  ng-click="save()">submit</md-button>
 					</md-card-actions>
 				</md-card>
 				</form>
@@ -164,8 +164,8 @@
 			
 			 app.config(function($mdThemingProvider) {
 					$mdThemingProvider.theme('default')
-						.primaryPalette('amber')
-						.accentPalette('indigo')
+						.primaryPalette('indigo')
+						.accentPalette('amber')
 						.dark();
 					});
 			
