@@ -90,6 +90,7 @@
 				</md-card>
 			</md-content>
 			<md-content layout-padding ng-show="active == 'add'">
+			<form name="kostenForm">        
 				<md-card >
 					<md-card-title>
 						<md-card-title-text>
@@ -115,7 +116,10 @@
 					      </md-input-container>
 						<md-input-container >
 				            <label>Was ?</label>
-				            <input ng-model="new.description" placeholder="Bezeichnung" required>
+				            <input
+				            	ng-model="new.description"
+				            	 md-maxlength="25" required 
+				            	 placeholder="Bezeichnung" required>
 				          </md-input-container>
 				          
 				          
@@ -123,7 +127,8 @@
 				           <label>€</label>
 					        <input
 					        type="number"
-					        min="1" placeholder="Kosten" ng-model="new.price" required>
+					        min="1" max="10000"
+					        required placeholder="Kosten" ng-model="new.price" required>
 					        </md-input-container>
 				          <md-input-container>
 					        <md-select ng-model="new.currency" required>
@@ -136,9 +141,10 @@
 				        </div>
 					</md-card-content>
 					<md-card-actions layout="row" layout-align="end center">
-						<md-button class="md-raised md-primary"  ng-click="save()">submit</md-button>
+						<md-button  ng-disabled="kostenForm.$invalid" class="md-raised md-primary"  ng-click="save()">submit</md-button>
 					</md-card-actions>
 				</md-card>
+				</form>
 			</md-content>
 		</div>
 		<!-- Angular Material requires Angular.js Libraries -->
