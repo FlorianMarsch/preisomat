@@ -152,7 +152,12 @@
 			 */
 			 var app = angular.module('myApp', ['ngMaterial']);
 			
-			
+			 app.config(function($mdThemingProvider) {
+					$mdThemingProvider.theme('default')
+						.primaryPalette('indigo')
+						.accentPalette('amber')
+						.dark();
+					});
 			
 			
 			
