@@ -1,4 +1,6 @@
 import static spark.Spark.post;
+import static spark.Spark.delete;
+import static spark.Spark.get;
 import static spark.SparkBase.port;
 import static spark.SparkBase.staticFileLocation;
 
@@ -61,6 +63,25 @@ public class Main {
 
 			return new ModelAndView(attributes, "json.ftl");
 		} , new FreeMarkerEngine());
+		
+		get("/api/cost", (request, response) -> {
+
+			
+			Map<String, Object> attributes = new HashMap<>();
+
+			
+			attributes.put("data", getCosts().toString());
+
+			return new ModelAndView(attributes, "json.ftl");
+		} , new FreeMarkerEngine());
+		
+		
+		delete("/api/cost/:id", (request, response) -> {
+			String id = request.params(":id");
+
+			dataService.delete(id);
+			return "";
+		}) ;
 	}
 
 	BigDecimal getCost() {

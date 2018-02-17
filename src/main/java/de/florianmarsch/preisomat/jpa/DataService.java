@@ -21,6 +21,18 @@ public class DataService {
 		return new ArrayList<>(resultList);
 	}
 	
+	public void delete(String aId){
+		
+		EntityManager em = new EmFactory().produceEntityManager();
+		em.getTransaction().begin();
+		Cost found = em.find(Cost.class, aId);
+		if(found != null) {
+			em.remove(found);
+		}
+		
+		em.getTransaction().commit();
+	}
+	
 
 	
 }
