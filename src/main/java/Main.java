@@ -139,6 +139,14 @@ public class Main {
 		List<Cost> allCosts = dataService.getAllCosts();
 		List<Person> persons = dataService.getPersons();
 		Map<String, Charge> charges = new HashMap<>();
+		
+		
+		for (Person person : persons) {
+			Charge charge = new Charge();
+			charge.setPerson(person.getName());
+			charge.setCharge(new BigDecimal("0"));
+			charges.put(person.getName(), charge);
+		}
 
 		for (Cost cost : allCosts) {
 			String person = cost.getPerson();
