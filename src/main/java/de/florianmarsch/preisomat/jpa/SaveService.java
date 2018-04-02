@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 
 import de.florianmarsch.preisomat.fixerio.CurrencyExchangeService;
 import de.florianmarsch.preisomat.vo.Cost;
+import de.florianmarsch.preisomat.vo.Person;
 import de.florianmarsch.preisomat.vo.SyncPoint;
 
 public class SaveService {
@@ -29,6 +30,24 @@ public class SaveService {
 		EntityManager em = new EmFactory().produceEntityManager();
 		em.getTransaction().begin();
 		em.persist(cost);
+		em.getTransaction().commit();
+	}
+	
+	
+	public void savePerson(Person aPerson){
+		EntityManager em = new EmFactory().produceEntityManager();
+		em.getTransaction().begin();
+		
+		Person find = em.find(Person.class, aPerson.getId());
+		
+		if(find != null){
+			find.setDays(aPerson.getDays());
+			em.merge(find);
+		}else {
+			em.persist(aPerson);
+		}
+		
+		
 		em.getTransaction().commit();
 	}
 }

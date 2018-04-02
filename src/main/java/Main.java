@@ -81,6 +81,15 @@ public class Main {
 			dataService.delete(id);
 			return "";
 		});
+		
+		get("/api/person", (request, response) -> {
+
+			Map<String, Object> attributes = new HashMap<>();
+
+			attributes.put("data", getPersons().toString());
+
+			return new ModelAndView(attributes, "json.ftl");
+		}, new FreeMarkerEngine());
 
 		
 	}
