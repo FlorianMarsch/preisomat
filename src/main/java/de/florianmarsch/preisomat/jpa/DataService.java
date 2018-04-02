@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import de.florianmarsch.preisomat.vo.Cost;
+import de.florianmarsch.preisomat.vo.Person;
 
 public class DataService {
 
@@ -15,6 +16,16 @@ public class DataService {
 		EntityManager em = new EmFactory().produceEntityManager();
 		em.getTransaction().begin();
 		Query query = em.createQuery("Select x from Cost x");
+		List resultList = query.getResultList();
+		
+		em.getTransaction().commit();
+		return new ArrayList<>(resultList);
+	}
+	public List<Person> getPersons(){
+		
+		EntityManager em = new EmFactory().produceEntityManager();
+		em.getTransaction().begin();
+		Query query = em.createQuery("Select x from Person x");
 		List resultList = query.getResultList();
 		
 		em.getTransaction().commit();

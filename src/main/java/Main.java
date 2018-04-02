@@ -1,6 +1,6 @@
-import static spark.Spark.post;
 import static spark.Spark.delete;
 import static spark.Spark.get;
+import static spark.Spark.post;
 import static spark.SparkBase.port;
 import static spark.SparkBase.staticFileLocation;
 
@@ -21,6 +21,7 @@ import de.florianmarsch.preisomat.jpa.DataService;
 import de.florianmarsch.preisomat.jpa.SaveService;
 import de.florianmarsch.preisomat.vo.Charge;
 import de.florianmarsch.preisomat.vo.Cost;
+import de.florianmarsch.preisomat.vo.Person;
 import de.florianmarsch.preisomat.vo.SyncPoint;
 import spark.ModelAndView;
 import spark.template.freemarker.FreeMarkerEngine;
@@ -55,6 +56,7 @@ public class Main {
 				data.put("rate", currencyXChange.getSEK());
 				data.put("date", getDate());
 				data.put("cost", getCost());
+				data.put("persons", getPersons());
 			} catch (Exception e) {
 				e.printStackTrace();
 				throw new RuntimeException();
@@ -62,26 +64,25 @@ public class Main {
 			attributes.put("data", data.toString());
 
 			return new ModelAndView(attributes, "json.ftl");
-		} , new FreeMarkerEngine());
-		
+		}, new FreeMarkerEngine());
+
 		get("/api/cost", (request, response) -> {
 
-			
 			Map<String, Object> attributes = new HashMap<>();
 
-			
 			attributes.put("data", getCosts().toString());
 
 			return new ModelAndView(attributes, "json.ftl");
-		} , new FreeMarkerEngine());
-		
-		
+		}, new FreeMarkerEngine());
+
 		delete("/api/cost/:id", (request, response) -> {
 			String id = request.params(":id");
 
 			dataService.delete(id);
 			return "";
-		}) ;
+		});
+
+		
 	}
 
 	BigDecimal getCost() {
@@ -96,6 +97,7 @@ public class Main {
 	JSONArray getCharging() {
 		JSONArray jsonArray = new JSONArray();
 		List<Cost> allCosts = dataService.getAllCosts();
+		List<Person> persons = dataService.getPersons();
 		Map<String, Charge> charges = new HashMap<>();
 
 		for (Cost cost : allCosts) {
@@ -111,12 +113,27 @@ public class Main {
 		}
 
 		if (!charges.isEmpty()) {
+			
+			
+			Integer days = 0;
+			for (Person person : persons) {
+				days = days + person.getDays();
+			}
 
-			double val = getCost().doubleValue() / charges.size();
-			BigDecimal average = new BigDecimal(val);
-			for (String person : charges.keySet()) {
-				Charge charge = charges.get(person);
-				charge.setSaldo(charge.getCharge().subtract(average));
+			double val = getCost().doubleValue() / days;
+			BigDecimal perDay = new BigDecimal(val);
+			for (String name : charges.keySet()) {
+				BigDecimal multiplicand = BigDecimal.ZERO;
+				for (Person person : persons) {
+					if(person.getName().equalsIgnoreCase(name)) {
+						multiplicand = new BigDecimal(person.getDays());
+					}
+				}
+				
+				BigDecimal share = perDay.multiply(multiplicand);
+				
+				Charge charge = charges.get(name);
+				charge.setSaldo(charge.getCharge().subtract(share));
 				jsonArray.put(charge.getJSONObject());
 			}
 		}
@@ -129,6 +146,15 @@ public class Main {
 		JSONArray jsonArray = new JSONArray();
 		List<Cost> allCosts = dataService.getAllCosts();
 		for (Cost cost : allCosts) {
+			jsonArray.put(cost.getJSONObject());
+		}
+		return jsonArray;
+	}
+	JSONArray getPersons() {
+
+		JSONArray jsonArray = new JSONArray();
+		List<Person> allCosts = dataService.getPersons();
+		for (Person cost : allCosts) {
 			jsonArray.put(cost.getJSONObject());
 		}
 		return jsonArray;

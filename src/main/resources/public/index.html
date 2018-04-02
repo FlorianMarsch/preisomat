@@ -105,14 +105,8 @@
 					        <label>Wer?</label>
 					        <md-select ng-model="new.name" placeholder="Name" required>
 				              <md-option></md-option>
-							  <md-option value="Till">Till</md-option>
-							  <md-option value="Janek">Janek</md-option>
-							  <md-option value="Deborah">Deborah</md-option>
-							  <md-option value="Flo">Flo</md-option>
-							  <md-option value="Jenny">Jenny</md-option>
-							  <md-option value="Tobi">Tobi</md-option>
-							  <md-option value="Andrea">Andrea</md-option>
-							  <md-option value="Christoph">Christoph</md-option>
+							  <md-option ng-repeat="person in persons" value="{{person.name}}">{{person.name}}</md-option>
+							 
 				            </md-select>
 					        
 					      </md-input-container>
@@ -186,6 +180,7 @@
 				localStorage.syncs = JSON.stringify([]);
 				localStorage.costs = JSON.stringify([]);
 				localStorage.charges = JSON.stringify([]);
+				localStorage.persons = JSON.stringify([]);
 				localStorage.cost = 0;
 				localStorage.rate = 0;
 				localStorage.init = true;
@@ -204,6 +199,7 @@
 			scope.cost = JSON.parse(localStorage.cost);
 			scope.charges = JSON.parse(localStorage.charges);
 			scope.rate =  JSON.parse(localStorage.rate);
+			scope.persons = JSON.parse(localStorage.persons);
 			
 			
 			scope.goto = function(target){
@@ -230,6 +226,9 @@
 					
 					scope.costs = data.data.data.costs;
 					localStorage.costs = JSON.stringify(scope.costs);
+					
+					scope.persons = data.data.data.persons;
+					localStorage.persons = JSON.stringify(scope.persons);
 					
 					scope.lastSync = data.data.data.date;
 					localStorage.lastSync = JSON.stringify(scope.lastSync);

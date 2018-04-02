@@ -30,7 +30,7 @@ public class EmFactory {
 		properties.put("javax.persistence.jdbc.driver", "org.postgresql.Driver");
 		
 //		properties.put("eclipselink.ddl-generation", "create-tables");
-//		properties.put("eclipselink.ddl-generation", "create-or-extend-tables");
+		properties.put("eclipselink.ddl-generation", "create-or-extend-tables");
 //		properties.put("eclipselink.ddl-generation", "drop-and-create-tables");
 		properties.put("eclipselink.ddl-generation.output-mode", "database");
 		entityManagerFactory = Persistence.createEntityManagerFactory(persistenceUnitName, properties);
