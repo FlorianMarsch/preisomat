@@ -199,7 +199,11 @@
 			scope.cost = JSON.parse(localStorage.cost);
 			scope.charges = JSON.parse(localStorage.charges);
 			scope.rate =  JSON.parse(localStorage.rate);
-			scope.persons = JSON.parse(localStorage.persons);
+			
+			scope.persons = [];
+			if(localStorage.persons){
+				scope.persons = JSON.parse(localStorage.persons);
+			}
 			
 			
 			scope.goto = function(target){
