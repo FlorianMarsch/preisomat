@@ -98,14 +98,11 @@ public class Main {
 			String body = request.body();
 			try {
 				JSONObject object = new JSONObject(body);
-				String id = object.getString("id");
-				if(id == null) {
-					id = UUID.randomUUID().toString();
-				}
+				
 				String name = object.getString("name");
 				Integer days = object.getInt("days");
 				Person person = new Person();
-				person.setId(id);
+				 
 				person.setDays(days);
 				person.setName(name);
 				

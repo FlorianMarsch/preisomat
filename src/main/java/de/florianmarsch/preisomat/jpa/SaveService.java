@@ -1,6 +1,8 @@
 package de.florianmarsch.preisomat.jpa;
 
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.UUID;
 
 import javax.persistence.EntityManager;
 
@@ -12,6 +14,7 @@ import de.florianmarsch.preisomat.vo.SyncPoint;
 public class SaveService {
 
 	private CurrencyExchangeService ces = new CurrencyExchangeService();
+	private DataService dataService = new DataService();
 	
 	public void saveSyncPoint(SyncPoint aSyncPoint){
 		Cost cost = new Cost();
@@ -38,12 +41,20 @@ public class SaveService {
 		EntityManager em = new EmFactory().produceEntityManager();
 		em.getTransaction().begin();
 		
-		Person find = em.find(Person.class, aPerson.getId());
+		Person find = null;
+		
+		List<Person> persons = dataService.getPersons();
+		for (Person person : persons) {
+			if(person.getName().equalsIgnoreCase(aPerson.getName())) {
+				find = person;
+			}
+		}
 		
 		if(find != null){
 			find.setDays(aPerson.getDays());
 			em.merge(find);
 		}else {
+			aPerson.setId(UUID.randomUUID().toString());
 			em.persist(aPerson);
 		}
 		
