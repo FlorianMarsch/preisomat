@@ -36,6 +36,49 @@
 							</md-list-item>
 						</md-list>
 					
+					
+					
+					
+					
+					<form name="personForm">        
+				<md-card >
+					<md-card-title>
+						<md-card-title-text>
+							<span class="md-headline">Füge eine neue Person hinzu</span>
+						</md-card-title-text>
+					</md-card-title>
+					<md-card-content>
+					<div layout="column">
+
+						<md-input-container >
+				            <label>Name</label>
+				            <input
+				            	ng-model="new.name"
+				            	 md-maxlength="25" required 
+				            	 placeholder="Name" required>
+				          </md-input-container>
+				          <md-input-container >
+				            <label>Tage</label>
+				            <input
+				            	ng-model="new.days"
+				            	 md-maxlength="25" required 
+				            	 placeholder="Tage" required>
+				          </md-input-container>
+				          
+				 
+				          
+				        </div>
+					</md-card-content>
+					<md-card-actions layout="row" layout-align="end center">
+						<md-button  ng-disabled="personForm.$invalid" class="md-raised md-accent"  ng-click="save()">submit</md-button>
+					</md-card-actions>
+				</md-card>
+				</form>
+					
+					
+					
+					
+					
 			</md-content>
 		</div>
 		<!-- Angular Material requires Angular.js Libraries -->
@@ -74,6 +117,7 @@
 			
 			scope.active = 'loading';
 			scope.persons = [];
+			scope.new = {};
 			
 			
 			$http({
@@ -87,7 +131,26 @@
 		 		console.log(error);
 		 	});
  
-
+			scope.save = function(){
+				if(scope.new.name == null || scope.new.days == null){
+					alert('Bitte Formular ausfüllen');
+					return;
+				}else{
+					$http({
+				 		method : 'POST',
+				 		url : '/api/person',
+				 		responseType : 'json',
+				 		data : scope.new
+				 	}).then(function(response) {
+				 		scope.new = {};
+				 	},function(error) {
+				 		console.log(error);
+				 	});
+					
+					
+				
+				}
+			};
 
 			
 		

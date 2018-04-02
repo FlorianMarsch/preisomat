@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -83,6 +84,39 @@ public class Main {
 		});
 		
 		get("/api/person", (request, response) -> {
+
+			Map<String, Object> attributes = new HashMap<>();
+
+			attributes.put("data", getPersons().toString());
+
+			return new ModelAndView(attributes, "json.ftl");
+		}, new FreeMarkerEngine());
+		
+		
+		post("/api/person", (request, response) -> {
+			
+			String body = request.body();
+			try {
+				JSONObject object = new JSONObject(body);
+				String id = object.getString("id");
+				if(id == null) {
+					id = UUID.randomUUID().toString();
+				}
+				String name = object.getString("name");
+				Integer days = object.getInt("days");
+				Person person = new Person();
+				person.setId(id);
+				person.setDays(days);
+				person.setName(name);
+				
+				saveService.savePerson(person);
+				
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
 
 			Map<String, Object> attributes = new HashMap<>();
 
