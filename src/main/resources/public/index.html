@@ -71,7 +71,7 @@
 							<md-list-item ng-repeat="x in charges" ng-click="null">
 								<p>{{x.person}} {{x.charge}}€ </p>
 								<md-chips>
-									<md-chip ng-class="x.saldo < 0 ? 'label label-danger':'label label-success'">{{x.saldo}}</md-chip>
+									<md-chip ng-class="x.saldo < 0 ? 'label label-danger':'label label-success'">{{x.saldo | number:2}}</md-chip>
 								</md-chips>
 							</md-list-item>
 						</md-list>
