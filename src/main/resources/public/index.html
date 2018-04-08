@@ -213,6 +213,13 @@
 					 	}).then(function(response) {
 					 		scope.loading = false;
 					 		scope.costCentre=response.data;
+					 		scope.new = {};
+							scope.new.payer;
+							scope.new.description;
+							scope.new.fixcost = true;
+							scope.new.participants = [];
+							scope.new.price;
+							scope.new.nativeCurrency="EUR";
 					 		$location.path("/"+scope.costCentre.id+"/costs");
 					 	},function(error) {
 					 		console.log(error);
