@@ -1,25 +1,29 @@
 package de.florianmarsch.preisomat.vo;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Table;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 @Table
 @Entity
-public class Charge {
+public class Charge implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6897356605770737118L;
+
 	@Id
 	private String id = UUID.randomUUID().toString();
 	
-	@Column
-	private String person;
+	@JoinColumn
+	private Person person;
 	
 	@Column
 	private BigDecimal charge;
@@ -34,10 +38,10 @@ public class Charge {
 	public void setId(String id) {
 		this.id = id;
 	}
-	public String getPerson() {
+	public Person getPerson() {
 		return person;
 	}
-	public void setPerson(String person) {
+	public void setPerson(Person person) {
 		this.person = person;
 	}
 	public BigDecimal getCharge() {
@@ -53,18 +57,5 @@ public class Charge {
 		this.saldo = saldo;
 	}
 	
-	public JSONObject getJSONObject() {
-		JSONObject JSONObject = new JSONObject();
-		try {
-			JSONObject.put("id", getId());
-			JSONObject.put("person", getPerson());
-			JSONObject.put("charge", getCharge());
-			JSONObject.put("saldo", getSaldo());
-		} catch (JSONException e) {
-			e.printStackTrace();
-			throw new RuntimeException();
-		}
-		return JSONObject;
-	}
-
+	
 }

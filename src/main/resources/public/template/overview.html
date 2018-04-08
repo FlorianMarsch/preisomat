@@ -1,0 +1,25 @@
+
+		<div layout="column" ng-cloak class="md-inline-form">
+			<md-toolbar class="md-primary">
+				<div class="md-toolbar-tools">
+					<h2>PREIS-O² can do-MAT</h2>
+				</div>
+			</md-toolbar>
+
+			<md-content layout-padding >
+				
+						<md-list flex>
+							<md-list-item ng-repeat="x in costCentres" ng-click="null">
+								<p>{{x.name}} mit <span ng-repeat="p in x.participants">{{p.name}} </span></p>
+						
+						<md-button class="md-icon-button" aria-label="add" ng-href="./{{x.id}}/costs" ng-click="select(x)">
+					      	<i class="material-icons">open_in_new</i>
+					     </md-button>
+							</md-list-item>
+						</md-list>
+						 <md-button class="md-icon-button" aria-label="add" ng-href="./create">
+					      	<i class="material-icons">add_box</i>
+					     </md-button>
+			</md-content>
+		</div>
+		

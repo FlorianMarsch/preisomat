@@ -1,4 +1,4 @@
-<html lang="en" manifest="the.appcache">
+<html lang="en">
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -11,138 +11,14 @@
 		<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
 		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" >
 	</head>
-	<body ng-app="myApp"  ng-cloak >
-		<!--
-			Your HTML content here
-			-->  
-		<div ng-controller="formCtrl" layout="column" ng-cloak class="md-inline-form">
-			<md-toolbar class="md-primary">
-				<div class="md-toolbar-tools">
-					<h2>PREIS-O² can do-MAT</h2>
-					 <span flex></span>
-					<md-button class="md-accent md-icon-button md-fab" style="margin-top:56px;" ng-show="active == 'kosten'" ng-click="gotoAdd()">
-			          <md-icon >add</md-icon>
-			        </md-button>
-				</div>
-			</md-toolbar>
-			<md-nav-bar
-				ng-hide="active == 'loading'"
-				md-selected-nav-item="active"
-				nav-bar-aria-label="navigation links">
-				<md-nav-item md-nav-click="goto('kosten')" name="kosten">
-					Kosten
-				</md-nav-item>
-				<md-nav-item md-nav-click="goto('rechnung')" name="rechnung">
-					Verrechnung
-				</md-nav-item>
-				<md-nav-item md-nav-click="goto('sync')" name="sync">
-					<md-icon ng-show="warning === true" >warning</md-icon>
-					Sync
-				</md-nav-item>
-			</md-nav-bar>
-			<md-content layout-padding ng-show="active == 'loading'">
+	<body ng-app="myApp" ng-controller="generalCtrl"  ng-cloak >
+			<md-content layout-padding ng-show="loading == true">
 				<div layout="row" layout-sm="column" layout-align="space-around">
 					<md-progress-circular md-mode="indeterminate"></md-progress-circular>
 				</div>
 			</md-content>
-			<md-content layout-padding ng-show="active == 'kosten'">
-				<md-card >
-					<md-card-title>
-						<md-card-title-text>
-							<span class="md-headline">Es sind {{cost}}€ Kosten angefallen :</span>
-						</md-card-title-text>
-					</md-card-title>
-					<md-card-content>
-						<md-list flex>
-							<md-list-item ng-repeat="x in costs" ng-click="null">
-								<p>{{x.description}} {{x.price}}€</p>
-								<md-chips>
-									<md-chip>{{x.person}}</md-chip>
-								</md-chips>
-							</md-list-item>
-						</md-list>
-					</md-card-content>
-				</md-card>
-			</md-content>
-			<md-content layout-padding ng-show="active == 'rechnung'">
-				<md-card >
-					<md-card-content>
-						<md-list flex>
-							<md-list-item ng-repeat="x in charges" ng-click="null">
-								<p>{{x.person}} {{x.charge}}€ </p>
-								<md-chips>
-									<md-chip ng-class="x.saldo < 0 ? 'label label-danger':'label label-success'">{{x.saldo | number:2}}</md-chip>
-								</md-chips>
-							</md-list-item>
-						</md-list>
-					</md-card-content>
-				</md-card>
-			</md-content>
-			<md-content layout-padding ng-show="active == 'sync'">
-				<md-card >
-					<md-card-title>
-						<md-card-title-text>
-							<span class="md-headline">Zuletzt synchronisiert : {{lastSync}}</span>
-							<span class="md-subhead">SEK in EUR : {{rate}}</span>
-						</md-card-title-text>
-					</md-card-title>
-					<md-card-actions layout="row" layout-align="end center">
-						<md-button class="md-raised md-primary"  ng-click="startSync()">sync now</md-button>
-					</md-card-actions>
-				</md-card>
-			</md-content>
-			<md-content layout-padding ng-show="active == 'add'">
-			<form name="kostenForm">        
-				<md-card >
-					<md-card-title>
-						<md-card-title-text>
-							<span class="md-headline">Füge einen neuen preisomat hinzu</span>
-						</md-card-title-text>
-					</md-card-title>
-					<md-card-content>
-					<div layout="column">
-						 <md-input-container>
-					        <label>Wer?</label>
-					        <md-select ng-model="new.name" placeholder="Name" required>
-				              <md-option></md-option>
-							  <md-option ng-repeat="person in persons" value="{{person.name}}">{{person.name}}</md-option>
-							 
-				            </md-select>
-					        
-					      </md-input-container>
-						<md-input-container >
-				            <label>Was ?</label>
-				            <input
-				            	ng-model="new.description"
-				            	 md-maxlength="25" required 
-				            	 placeholder="Bezeichnung" required>
-				          </md-input-container>
-				          
-				          
-				           <md-input-container>
-				           <label>€</label>
-					        <input
-					        type="number"
-					        min="1" max="10000"
-					        required placeholder="Kosten" ng-model="new.price" required>
-					        </md-input-container>
-				          <md-input-container>
-					        <md-select ng-model="new.currency" required>
-							  <md-option value="EUR">EUR</md-option>
-							  <md-option value="SEK">SEK</md-option>
-				            </md-select>
-					        
-					      </md-input-container>
-				          
-				        </div>
-					</md-card-content>
-					<md-card-actions layout="row" layout-align="end center">
-						<md-button  ng-disabled="kostenForm.$invalid" class="md-raised md-accent"  ng-click="save()">submit</md-button>
-					</md-card-actions>
-				</md-card>
-				</form>
-			</md-content>
-		</div>
+		<div ng-view="" ng-hide="loading == true"></div>
+		
 		<!-- Angular Material requires Angular.js Libraries -->
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js"></script>
@@ -156,119 +32,195 @@
 			/**
 			 * You must include the dependency on 'ngMaterial' 
 			 */
-			 var app = angular.module('myApp', ['ngMaterial']);
+			 var app = angular.module('myApp', ['ngMaterial','ngRoute']);
 			
 			 app.config(function($mdThemingProvider) {
 					$mdThemingProvider.theme('default')
 						.primaryPalette('indigo')
 						.accentPalette('amber')
 						.dark();
+				});
+			 
+			
+			 app.config(function($locationProvider) {
+				 $locationProvider.html5Mode({
+					  enabled: true,
+					  requireBase: false
 					});
-			
-			
-			
-			    app.controller('formCtrl', function($scope,$timeout, $http) {
-			
-			
-			var timeout = $timeout;
-			var scope = $scope;
-			var http = $http;
-			var me = this;
-			
-			if(typeof localStorage.init == 'undefined' ){
-				localStorage.syncDate = null;
-				localStorage.syncs = JSON.stringify([]);
-				localStorage.costs = JSON.stringify([]);
-				localStorage.charges = JSON.stringify([]);
-				localStorage.persons = JSON.stringify([]);
-				localStorage.cost = 0;
-				localStorage.rate = 0;
-				localStorage.init = true;
-			}
-			
-			scope.active = 'kosten';
-			scope.lastSync = localStorage.syncDate;
-			scope.warning = JSON.parse(localStorage.syncs).length > 0;
-			scope.new = {};
-			scope.new.name;
-			scope.new.description;
-			scope.new.price;
-			scope.new.currency ="EUR";
-			scope.syncs = JSON.parse(localStorage.syncs);
-			scope.costs = JSON.parse(localStorage.costs);
-			scope.cost = JSON.parse(localStorage.cost);
-			scope.charges = JSON.parse(localStorage.charges);
-			scope.rate =  JSON.parse(localStorage.rate);
-			
-			scope.persons = [];
-			if(localStorage.persons){
-				scope.persons = JSON.parse(localStorage.persons);
-			}
-			
-			
-			scope.goto = function(target){
-				scope.active = target;
-			};
-			scope.gotoAdd = function(){
-				scope.active='add';
-			};
-			
-			
-			scope.startSync = function(){
-				scope.active='loading';
-				timeout(function() {
-					scope.sync();
-				}, 1);
-				
-			};
-			scope.sync = function(){
-				
-				$http.post('/api/sync', JSON.stringify(scope.syncs), {})
-				.then(function (data){
-					scope.cost = data.data.data.cost;
-					localStorage.cost = JSON.stringify(scope.cost);
+			 });
+			 
+			 app.config(function($routeProvider) {
+				  $routeProvider
+				  .when('/', {
+				      templateUrl: '/template/overview.html'
+				    })
+				    .when('/overview', {
+				      templateUrl: '/template/overview.html'
+				    })
+				  	.when('/create', {
+				      templateUrl: '/template/create-cost-centre.html'
+				    })
+				    .when('/:costcentreId/costs', {
+				      templateUrl: '/template/cost.html'
+				    })
+				    .when('/:costcentreId/add', {
+					      templateUrl: '/template/add.html'
+					})
+				    .when('/:costcentreId/bill', {
+					      templateUrl: '/template/bill.html'
+					 })
+					 .when('/:costcentreId/guv', {
+					      templateUrl: '/template/guv.html'
+					 })
+				    .otherwise({  templateUrl: '/template/404.html'  });
+				});
+			 
+			 app.controller('generalCtrl', function($scope,$timeout, $http,$location) {
 					
-					scope.costs = data.data.data.costs;
-					localStorage.costs = JSON.stringify(scope.costs);
 					
-					scope.persons = data.data.data.persons;
-					localStorage.persons = JSON.stringify(scope.persons);
+					var timeout = $timeout;
+					var scope = $scope;
+					var http = $http;
+					var me = this;
 					
-					scope.lastSync = data.data.data.date;
-					localStorage.lastSync = JSON.stringify(scope.lastSync);
+
+					scope.costCentres = [];
+					scope.loading = true;
 					
-					scope.rate = data.data.data.rate;
-					localStorage.rate = JSON.stringify(scope.rate);
 					
-					scope.charges = data.data.data.charging;
-					localStorage.charges = JSON.stringify(scope.charges);
+					$http({
+				 		method : 'GET',
+				 		url : '/api/costCentres',
+				 		responseType : 'json'
+				 	}).then(function(response) {
+				 		scope.loading = false;
+				 		scope.costCentres=response.data;
+				 	},function(error) {
+				 		console.log(error);
+				 	});
 					
-					scope.syncs = [];
-					localStorage.syncs = JSON.stringify([]);
 					
-				
-					scope.active='sync';
-					scope.warning = false;
-				}, function (){alert('Error')});
-			
-			};
-			scope.save = function(){
-				if(scope.new.name == null || scope.new.description == null || scope.new.price == null){
-					alert('Bitte Formular ausfüllen');
-					return;
-				}else{
-					scope.syncs.push(scope.new);
+		 
+
+					
+					scope.goto = function(target){
+				 		$location.path("/"+scope.costCentre.id+"/"+target);
+					};
+					
+					
+					
+					
+					scope.costCentre ={};
+					scope.costCentre.name = '';
+					scope.costCentre.description = '';
+					scope.costCentre.participants = [];
+					scope.costCentre.costs = [];
+					
+					
+					
+					
+					scope.addParticipant = function(){
+						var participant = {};
+						participant.name = '';
+						participant.days = 1;
+						scope.costCentre.participants.push(participant);
+					};
+					
+					scope.save = function(){
+
+				 		scope.loading = true;
+						$http({
+					 		method : 'POST',
+					 		url : '/api/costCentres',
+					 		responseType : 'json',
+					 		data : scope.costCentre
+					 	}).then(function(response) {
+					 		scope.loading = false;
+					 		scope.costCentre=response.data;
+					 		$location.path("/"+scope.costCentre.id+"/costs");
+					 	},function(error) {
+					 		console.log(error);
+					 	});
+					};
+					
+		 
+					scope.select = function(x){
+						scope.costCentre = x;
+					};
+					
 					scope.new = {};
-					scope.new.name;
+
+					scope.new.payer;
 					scope.new.description;
+					scope.new.fixcost = true;
+					scope.new.participants = [];
 					scope.new.price;
-					scope.new.currency="EUR";
-					localStorage.syncs= JSON.stringify(scope.syncs);
-					scope.active='sync';
-					scope.warning = true;
-				}
-			};
+					scope.new.nativeCurrency="EUR";
+					
+					
+					scope.guv= {payer:null,g:[],v:[]};
+					scope.guv.changed= function(element){
+						
+						scope.guv= {payer:element, person:JSON.parse(element),g:[],v:[],charged:0, payed:0};
+						console.log(scope.guv);
+						scope.costCentre.costs.forEach(function(element) {
+							  if(element.payer.id == scope.guv.person.id){
+								  scope.guv.g.push({description:element.description, price:element.price});
+								  scope.guv.payed+=element.price;
+							  }
+							  if(Object.keys(element.share).includes(scope.guv.person.name)){
+								  scope.guv.v.push({description:element.description, price:element.share[scope.guv.person.name]});
+								  scope.guv.charged+=element.share[scope.guv.person.name];
+							  }
+						});
+					};
+					
+					scope.charged = function(element){
+						return scope.new.participants.some(function(participant){return element.id == participant.id});
+					};
+					scope.toggleCostParticipant = function(element){
+						if (scope.charged(element)) {
+							scope.removeFromCost(element);
+						}else{
+							scope.addToCost(element);
+						}
+					};
+
+					scope.addToCost = function(element){
+						scope.new.participants.push(element);
+					};
+					scope.removeFromCost = function(p){
+
+						var newParticipants = [];
+						scope.new.participants.forEach(
+							function(pa){
+								if(pa._id !== p._id){
+									newParticipants.push(pa);
+								}
+							});
+						scope.new.participants = newParticipants;
+					};
+					scope.saveCost = function(){
+
+						scope.new.payer = JSON.parse(scope.new.payer);
+						
+				 		scope.loading = true;
+						$http({
+					 		method : 'POST',
+					 		url : '/api/costCentres/'+scope.costCentre.id+'/costs',
+					 		responseType : 'json',
+					 		data : scope.new
+					 	}).then(function(response) {
+					 		scope.loading = false;
+					 		scope.costCentre=response.data;
+					 		$location.path("/"+scope.costCentre.id+"/costs");
+					 	},function(error) {
+					 		console.log(error);
+					 	});
+					};
+					
 			});
+			 
 		</script>
 	</body>
 </html>

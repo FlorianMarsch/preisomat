@@ -1,0 +1,46 @@
+
+		<div layout="column" ng-cloak class="md-inline-form">
+			<md-toolbar class="md-primary">
+				<div class="md-toolbar-tools">
+					<h2>PREIS-O² can do-MAT</h2>
+					 <span flex></span>
+					<md-button class="md-accent md-icon-button md-fab" style="margin-top:56px;" ng-click="goto('add')">
+			          <md-icon >add</md-icon>
+			        </md-button>
+				</div>
+			</md-toolbar>
+			<md-nav-bar
+				md-selected-nav-item="'costs'"
+				nav-bar-aria-label="navigation links">
+				<md-nav-item md-nav-click="goto('costs')" name="costs" >
+					Kosten
+				</md-nav-item>
+				<md-nav-item md-nav-click="goto('bill')" name="bill">
+					Verrechnung
+				</md-nav-item>
+				<md-nav-item md-nav-click="goto('guv')" name="guv">
+					G und V
+				</md-nav-item>
+			</md-nav-bar>
+			
+			<md-content layout-padding>
+				<md-card >
+					<md-card-title>
+						<md-card-title-text>
+							<span class="md-headline">Es sind {{costCentre.costs.length}} Kosten angefallen :</span>
+						</md-card-title-text>
+					</md-card-title>
+					<md-card-content>
+						<md-list flex>
+							<md-list-item ng-repeat="x in costCentre.costs" ng-click="null">
+								<p>{{x.description}} {{x.price}}€</p>
+								<md-chips>
+									<md-chip>{{x.payer.name}}</md-chip>
+								</md-chips>
+							</md-list-item>
+						</md-list>
+					</md-card-content>
+				</md-card>
+			</md-content>
+			
+		</div>

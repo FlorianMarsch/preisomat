@@ -1,0 +1,101 @@
+
+			<md-toolbar class="md-primary">
+				<div class="md-toolbar-tools">
+					<h2>PREIS-O² can do-MAT</h2>
+					 <span flex></span>
+					<md-button class="md-accent md-icon-button md-fab" style="margin-top:56px;" ng-show="active == 'kosten'" ng-click="gotoAdd()">
+			          <md-icon >add</md-icon>
+			        </md-button>
+				</div>
+			</md-toolbar>
+			<md-nav-bar
+				md-selected-nav-item="'add'"
+				nav-bar-aria-label="navigation links">
+				<md-nav-item md-nav-click="goto('costs')" name="costs">
+					Kosten
+				</md-nav-item>
+				<md-nav-item md-nav-click="goto('bill')" name="bill">
+					Verrechnung
+				</md-nav-item>
+				
+			</md-nav-bar>
+			
+				<form name="kostenForm">        
+				<md-card >
+					<md-card-title>
+						<md-card-title-text>
+							<span class="md-headline">Füge einen neuen preisomat hinzu</span>
+						</md-card-title-text>
+					</md-card-title>
+					<md-card-content>
+					<div layout="column">
+					
+					
+					<md-input-container >
+				            <label>Bezahlt von:</label>
+				             <md-select ng-model="new.payer" placeholder="Name" required>
+				              <md-option></md-option>
+							  <md-option ng-repeat="person in costCentre.participants" value="{{person}}">{{person.name}}</md-option>
+							 
+				            </md-select>
+				          </md-input-container>
+						
+						
+						<md-input-container >
+				            <label>Was ?</label>
+				            <input
+				            	ng-model="new.description"
+				            	 md-maxlength="25" required 
+				            	 placeholder="Bezeichnung" required>
+				          </md-input-container>
+				          <md-input-container >
+				            <label>Wie ?</label>
+				            <div>
+				           <md-switch ng-model="new.fixcost" >
+							  {{new.fixcost ? 'pro Tag' : 'pro Person' }}
+							</md-switch>
+							</div>
+				          </md-input-container>
+				          
+				          <md-list flex="25" ng-if="!new.fixcost">
+					        <md-subheader class="md-no-sticky">
+					          Wer?
+					        </md-subheader>
+					        <md-list-item class="md-1-line" ng-repeat="p in costCentre.participants"  ng-click="toggleCostParticipant(p)" >
+					          <div>
+					            <md-checkbox   ng-checked="charged(p)"  ng-click="toggleCostParticipant(p)" />
+					          </div>
+					          <div class="md-list-item-text" layout="column">
+					            <h3>{{ p.name }}</h3> 
+					          </div>
+					          
+					      </md-list-item>
+					    </md-list>
+				          
+				          
+				        
+				          
+				           <md-input-container>
+				           <label>Betrag</label>
+					        <input
+					        type="number"
+					        min="1" max="10000"
+					        required placeholder="Kosten" ng-model="new.price" required>
+					        </md-input-container>
+				          <md-input-container>
+				          
+				           <label>EUR</label>
+					        <md-select ng-model="new.nativeCurrency" required>
+							  <md-option value="EUR">EUR</md-option>
+							  <md-option value="SEK">SEK</md-option>
+				            </md-select>
+					        
+					      </md-input-container>
+				          
+				        </div>
+					</md-card-content>
+					<md-card-actions layout="row" layout-align="end center">
+						<md-button  ng-disabled="kostenForm.$invalid" class="md-raised md-accent"  ng-click="saveCost()">submit</md-button>
+					</md-card-actions>
+				</md-card>
+				</form>

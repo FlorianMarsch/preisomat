@@ -1,34 +1,66 @@
 package de.florianmarsch.preisomat.vo;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 @Table
 @Entity
-public class Cost {
+public class Cost implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1083092677531608672L;
+
 
 	@Id
 	private String id = UUID.randomUUID().toString();
 
-	@Column
-	private String person;
+	@JoinColumn
+	private Person payer;
 
 	@Column
 	private String description;
+	
+	@Column
+	private Boolean fixcost = Boolean.TRUE;
+	
+	@JoinColumn
+	@ManyToMany
+	private List<Person> participants;
+	
+	@Transient
+	@JsonProperty(access = Access.READ_ONLY)
+	private Map<String, BigDecimal> share;
 
+	@Column
+	private String nativeCurrency;
+	
 	@Column
 	private BigDecimal price;
 
 	@Column
 	private BigDecimal priceSEK;
+	
+	@Column
+	private BigDecimal sekExchange;
 
 	public String getId() {
 		return id;
@@ -38,20 +70,36 @@ public class Cost {
 		this.id = id;
 	}
 
-	public String getPerson() {
-		return person;
-	}
-
-	public void setPerson(String person) {
-		this.person = person;
-	}
-
 	public String getDescription() {
 		return description;
 	}
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public Boolean getFixcost() {
+		return fixcost;
+	}
+
+	public void setFixcost(Boolean fixcost) {
+		this.fixcost = fixcost;
+	}
+
+	public List<Person> getParticipants() {
+		return participants;
+	}
+
+	public void setParticipants(List<Person> participants) {
+		this.participants = participants;
+	}
+
+	public Map<String, BigDecimal> getShare() {
+		return share;
+	}
+
+	public void setShare(Map<String, BigDecimal> share) {
+		this.share = share;
 	}
 
 	public BigDecimal getPrice() {
@@ -70,18 +118,29 @@ public class Cost {
 		this.priceSEK = priceSEK;
 	}
 
-	public JSONObject getJSONObject() {
-		JSONObject JSONObject = new JSONObject();
-		try {
-			JSONObject.put("id", getId());
-			JSONObject.put("person", getPerson());
-			JSONObject.put("description", getDescription());
-			JSONObject.put("price", getPrice());
-			JSONObject.put("priceSEK", getPriceSEK());
-		} catch (JSONException e) {
-			e.printStackTrace();
-			throw new RuntimeException();
-		}
-		return JSONObject;
+	public BigDecimal getSekExchange() {
+		return sekExchange;
 	}
+
+	public void setSekExchange(BigDecimal sekExchange) {
+		this.sekExchange = sekExchange;
+	}
+
+	public Person getPayer() {
+		return payer;
+	}
+
+	public void setPayer(Person payer) {
+		this.payer = payer;
+	}
+
+	public String getNativeCurrency() {
+		return nativeCurrency;
+	}
+
+	public void setNativeCurrency(String nativeCurrency) {
+		this.nativeCurrency = nativeCurrency;
+	}
+
+
 }

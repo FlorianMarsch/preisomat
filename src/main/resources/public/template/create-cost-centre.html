@@ -1,0 +1,73 @@
+
+		<div layout="column" ng-cloak class="md-inline-form">
+			<md-toolbar class="md-primary">
+				<div class="md-toolbar-tools">
+					<h2>PREIS-O² can do-MAT</h2>
+				</div>
+			</md-toolbar>
+
+			<md-content layout-padding >
+				
+						
+						
+						
+						
+					
+						
+			<form name="createCostCentreForm">        
+				<md-card >
+					<md-card-title>
+						<md-card-title-text>
+							<span class="md-headline">Füge eine neue Gruppe hinzu</span>
+						</md-card-title-text>
+					</md-card-title>
+					<md-card-content>
+						<div layout="column">
+							<md-input-container >
+					            <label>Gruppen - Name</label>
+					            <input
+					            	ng-model="costCentre.name"
+					            	 md-maxlength="10" required 
+					            	 placeholder="Name">
+					          </md-input-container>
+					          <md-input-container >
+					            <label>Beschreibung</label>
+					            <input
+					            	ng-model="costCentre.description"
+					            	 md-maxlength="25" 
+					            	 placeholder="Beschreibung">
+					          </md-input-container>
+						
+				        </div>
+				        <div ng-repeat="x in costCentre.participants">
+							<div layout="row">
+								<md-input-container >
+						            <label>Teilnehmer</label>
+						            <input
+						            	ng-model="x.name"
+						            	 md-maxlength="10" required 
+						            	 placeholder="Name">
+						          </md-input-container>
+						          <md-input-container >
+						            <label>Tage</label>
+						            <input
+						            type="number"
+						            	ng-model="x.days"
+						            	 min ="1"
+						            	 max = "99"
+						            	 required
+						            	 placeholder="Tage">
+						          </md-input-container>
+					        </div>
+						</div>
+					</md-card-content>
+					<md-card-actions layout="row" layout-align="end center">
+						<md-button   class="md-raised"  ng-click="addParticipant()">Teilnehmer hinzufügen</md-button>
+					
+						<md-button  ng-disabled="createCostCentreForm.$invalid" class="md-raised md-accent"  ng-click="save()">submit</md-button>
+					</md-card-actions>
+				</md-card>
+				</form>
+					
+			</md-content>
+		
