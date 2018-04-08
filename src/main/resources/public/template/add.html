@@ -46,6 +46,8 @@
 				            <p>
 				           <md-switch ng-model="new.fixcost" >
 							  {{new.fixcost ? 'pro Tag' : 'pro Person' }}
+							  <i class="material-icons" ng-if="new.fixcost">timer</i>
+								<i class="material-icons" ng-if="!new.fixcost">person</i>
 							</md-switch>
 							</p>
 				          </md-input-container>

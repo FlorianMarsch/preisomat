@@ -38,6 +38,8 @@
 						<md-list flex>
 							<md-list-item ng-repeat="x in costCentre.costs" ng-click="null">
 								<p>{{x.description}} {{x.price}}€</p>
+								<i class="material-icons" ng-if="x.fixcost">timer</i>
+								<i class="material-icons" ng-if="!x.fixcost">person</i>
 								<md-chips>
 									<md-chip>{{x.payer.name}}</md-chip>
 								</md-chips>
