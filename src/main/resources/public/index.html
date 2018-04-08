@@ -147,6 +147,17 @@
 						scope.goto("add");
 					};
 					
+					scope.newCost = function(){
+						scope.new = {};
+						scope.new.payer;
+						scope.new.description;
+						scope.new.fixcost = true;
+						scope.new.participants = [];
+						scope.new.price;
+						scope.new.nativeCurrency="EUR";
+						scope.goto("add");
+					}
+					
 					scope.save = function(){
 
 				 		scope.loading = true;
