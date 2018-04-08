@@ -2,6 +2,9 @@
 		<div layout="column" ng-cloak class="md-inline-form">
 			<md-toolbar class="md-primary">
 				<div class="md-toolbar-tools">
+					 <md-button class="md-icon-button" ng-href="/">
+						<i class="material-icons" >arrow_back</i>   
+					</md-button>
 					<h2>PREIS-O² can do-MAT</h2>
 					 <span flex></span>
 					<md-button class="md-accent md-icon-button md-fab" style="margin-top:56px;" ng-click="goto('add')">
@@ -12,6 +15,7 @@
 			<md-nav-bar
 				md-selected-nav-item="'bill'"
 				nav-bar-aria-label="navigation links">
+				
 				<md-nav-item md-nav-click="goto('costs')" name="costs" >
 					Kosten
 				</md-nav-item>

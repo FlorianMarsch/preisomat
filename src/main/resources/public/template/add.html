@@ -1,6 +1,9 @@
 
 			<md-toolbar class="md-primary">
 				<div class="md-toolbar-tools">
+				<md-button class="md-icon-button" ng-href="./costs">
+						<i class="material-icons" >arrow_back</i>   
+					</md-button>
 					<h2>PREIS-O² can do-MAT</h2>
 					 <span flex></span>
 					<md-button class="md-accent md-icon-button md-fab" style="margin-top:56px;" ng-show="active == 'kosten'" ng-click="gotoAdd()">
@@ -8,19 +11,7 @@
 			        </md-button>
 				</div>
 			</md-toolbar>
-			<md-nav-bar
-				md-selected-nav-item="'add'"
-				nav-bar-aria-label="navigation links">
-				<md-nav-item md-nav-click="goto('costs')" name="costs">
-					Kosten
-				</md-nav-item>
-				<md-nav-item md-nav-click="goto('bill')" name="bill">
-					Verrechnung
-				</md-nav-item>
-				<md-nav-item md-nav-click="goto('guv')" name="guv">
-					G und V
-				</md-nav-item>
-			</md-nav-bar>
+			
 			
 				<form name="kostenForm">        
 				<md-card >
