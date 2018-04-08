@@ -39,7 +39,7 @@
 					</md-card-title>
 					<md-card-content>
 						<md-list flex>
-							<md-list-item ng-repeat="x in costCentre.costs" ng-click="null">
+							<md-list-item ng-repeat="x in costCentre.costs" ng-click="showCost(x)">
 								<p>{{x.payer.name}} bezahlt {{x.price | number:2}}€ für {{x.description}} 
 								<i class="material-icons" ng-if="x.fixcost">timer</i>
 								<i class="material-icons" ng-if="!x.fixcost">person</i>

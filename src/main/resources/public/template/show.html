@@ -1,0 +1,60 @@
+
+			<md-toolbar class="md-primary">
+				<div class="md-toolbar-tools">
+				<md-button class="md-icon-button" ng-href="./costs">
+						<i class="material-icons" >arrow_back</i>   
+					</md-button>
+					<h2>PREIS-O² can do-MAT</h2>
+					 <span flex></span>
+					<md-button class="md-accent md-icon-button md-fab" style="margin-top:56px;" ng-show="active == 'kosten'" ng-click="gotoAdd()">
+			          <md-icon >add</md-icon>
+			        </md-button>
+				</div>
+			</md-toolbar>
+			
+			
+				<form name="kostenForm">        
+				<md-card >
+					<md-card-title>
+						<md-card-title-text>
+							<span class="md-headline">Schaue dir den preisomat etwas genauer an</span>
+						</md-card-title-text>
+					</md-card-title>
+					<md-card-content>
+					<div layout="column">
+					
+					
+					<p>{{new.payer.name}} bezahlt {{new.price | number:2}}€ für {{new.description}} 
+				        
+				          
+				         
+				          <div>
+				          <md-list>
+					        <md-subheader class="md-no-sticky">
+					          Kostenumlage {{new.fixcost ? 'auf Basis der anwesenden Tage' : 'pro Person' }}
+					           <i class="material-icons" ng-if="new.fixcost">timer</i>
+								<i class="material-icons" ng-if="!new.fixcost">person</i>:
+					        </md-subheader>
+					        <md-list-item class="md-1-line" ng-repeat="(key, value) in new.share" >
+					         
+					          <div class="md-list-item-text" layout="column">
+					            <span>{{ key }} {{ value | number:2}}€</span> 
+					          </div>
+					          
+						      </md-list-item>
+						    </md-list>
+				          </div>
+				          
+				        
+				          
+				          
+				          
+				        
+					        
+					
+				          
+				        </div>
+					</md-card-content>
+				
+				</md-card>
+				</form>

@@ -66,6 +66,9 @@
 				    .when('/:costcentreId/add', {
 					      templateUrl: '/template/add.html'
 					})
+				    .when('/:costcentreId/show', {
+					      templateUrl: '/template/show.html'
+					})
 				    .when('/:costcentreId/bill', {
 					      templateUrl: '/template/bill.html'
 					 })
@@ -146,6 +149,10 @@
 						scope.new = JSON.parse(JSON.stringify(cost));
 						scope.goto("add");
 					};
+					scope.showCost = function(cost){
+						scope.new = JSON.parse(JSON.stringify(cost));
+						scope.goto("show");
+					};
 					
 					scope.newCost = function(){
 						scope.new = {};
@@ -202,11 +209,11 @@
 						console.log(scope.guv);
 						scope.costCentre.costs.forEach(function(element) {
 							  if(element.payer.id == scope.guv.person.id){
-								  scope.guv.g.push({description:element.description, price:element.price});
+								  scope.guv.g.push({description:element.description, price:element.price, cost:element});
 								  scope.guv.payed+=element.price;
 							  }
 							  if(Object.keys(element.share).includes(scope.guv.person.name)){
-								  scope.guv.v.push({description:element.description, price:element.share[scope.guv.person.name]});
+								  scope.guv.v.push({description:element.description, price:element.share[scope.guv.person.name], cost:element});
 								  scope.guv.charged+=element.share[scope.guv.person.name];
 							  }
 						});

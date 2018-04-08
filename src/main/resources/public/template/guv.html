@@ -56,7 +56,7 @@
 							<md-subheader class="md-no-sticky">
 					          {{guv.payed | number:2}}€ bezahlt
 					        </md-subheader>
-							<md-list-item ng-repeat="x in guv.g " ng-click="null">
+							<md-list-item ng-repeat="x in guv.g " ng-click="showCost(x.cost)">
 								<p>{{x.description}} +{{x.price | number:2}}€</p>
 							</md-list-item>
 						</md-list>
@@ -64,7 +64,7 @@
 							<md-subheader class="md-no-sticky">
 					          {{guv.charged | number:2}}€ in Anspruch genommen
 					        </md-subheader>
-							<md-list-item ng-repeat="x in guv.v" ng-click="null">
+							<md-list-item ng-repeat="x in guv.v" ng-click="showCost(x.cost)">
 								<p>{{x.description}} -{{x.price | number:2}}€</p>
 							</md-list-item>
 						</md-list>
