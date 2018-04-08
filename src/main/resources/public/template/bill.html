@@ -42,7 +42,7 @@
 						<md-list flex>
 							<md-list-item ng-repeat="x in costCentre.chargings" ng-click="null">
 								<p flex="50">{{x.person.name}}</p>
-								<p flex="50">{{x.saldo}}€</p>
+								<p flex="50">{{x.saldo | number:2}}€</p>
 							</md-list-item>
 						</md-list>
 					</md-card-content>

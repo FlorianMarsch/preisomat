@@ -54,18 +54,18 @@
 					<md-card-content layout="row">
 						<md-list flex ng-show="guv.payed" >
 							<md-subheader class="md-no-sticky">
-					          {{guv.payed}}€ bezahlt
+					          {{guv.payed | number:2}}€ bezahlt
 					        </md-subheader>
 							<md-list-item ng-repeat="x in guv.g " ng-click="null">
-								<p>{{x.description}} +{{x.price}}€</p>
+								<p>{{x.description}} +{{x.price | number:2}}€</p>
 							</md-list-item>
 						</md-list>
 						<md-list flex ng-show="guv.charged" >
 							<md-subheader class="md-no-sticky">
-					          {{guv.charged}}€ in Anspruch genommen
+					          {{guv.charged | number:2}}€ in Anspruch genommen
 					        </md-subheader>
 							<md-list-item ng-repeat="x in guv.v" ng-click="null">
-								<p>{{x.description}} -{{x.price}}€</p>
+								<p>{{x.description}} -{{x.price | number:2}}€</p>
 							</md-list-item>
 						</md-list>
 					</md-card-content>
