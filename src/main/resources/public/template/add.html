@@ -26,8 +26,8 @@
 					
 					<md-input-container >
 				            <label>Bezahlt von:</label>
-				             <md-select ng-model="new.payer" placeholder="Name" required>
-				              <md-option></md-option>
+				             <md-select ng-model="new.payer" ng-model-options="{trackBy: '$value.id'}" placeholder="Name" required>
+				              <md-option ng-value="null"></md-option>
 							  <md-option ng-repeat="person in costCentre.participants track by person.id" ng-value="person">{{person.name}}</md-option>
 							 
 				            </md-select>

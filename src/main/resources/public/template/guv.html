@@ -40,7 +40,7 @@
 						<md-card-title-text>
 							<md-input-container >
 				            <label>Genaue Berechnung der Kosten für:</label>
-				             <md-select ng-model="guv.payer" placeholder="Name" required>
+				             <md-select ng-model="guv.payer" placeholder="Name" required ng-model-options="{trackBy: '$value.id'}">
 				              <md-option></md-option>
 							  <md-option ng-repeat="person in costCentre.participants track by person.id" ng-value="person">{{person.name}}</md-option>
 							 
