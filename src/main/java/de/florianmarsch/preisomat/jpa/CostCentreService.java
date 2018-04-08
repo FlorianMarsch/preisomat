@@ -88,6 +88,7 @@ public class CostCentreService {
 			aCost.setPrice(priceEUR);
 			aCost.setPriceSEK(priceSEK);
 			aCost.setSekExchange(sekExchange);
+			aCost.setNativeCurrency("EUR");
 		}
 		
 		Iterator<Cost> iterator = aCostCentre.getCosts().iterator();
