@@ -43,7 +43,20 @@ public class CostCentreService {
 		EntityManager em = new EmFactory().produceEntityManager();
 		em.getTransaction().begin();
 		
-		em.persist(aCostCentre);
+		if(aCostCentre.getId() != null) {
+			
+			CostCentre original = em.find(CostCentre.class, aCostCentre.getId());
+			original.setName(aCostCentre.getName());
+			original.setDescription(aCostCentre.getDescription());
+			
+			original.setParticipants(aCostCentre.getParticipants());
+			
+			em.merge(original);
+			
+		}else {
+			em.persist(aCostCentre);
+		}
+		
 		
 		
 		em.getTransaction().commit();

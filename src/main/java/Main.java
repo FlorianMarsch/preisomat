@@ -47,6 +47,7 @@ public class Main {
 		server.getBinary("/:view", (request, response) -> {
 			return IOUtils.toString(Thread.currentThread().getContextClassLoader().getResourceAsStream("public/index.html")) ;
 		});
+
 		
 		server.get("/api/costCentres", (request, response) -> {
 			
@@ -65,6 +66,7 @@ public class Main {
 			CostCentre costCentre = mapper.readValue(body,CostCentre.class);
 			
 			costCentreService.createCostCentre(costCentre);
+			costCentre = costCentreService.getCostCentre(costCentre.getId());
 			return chargingService.calculate(costCentre);
 		});
 		
