@@ -41,10 +41,8 @@
 					<md-card-content>
 						<md-list flex>
 							<md-list-item ng-repeat="x in costCentre.chargings" ng-click="null">
-								<p>{{x.person.name}} übernahm {{x.charge}}€</p>
-								<md-chips>
-									<md-chip>Saldo : {{x.saldo}}€</md-chip>
-								</md-chips>
+								<p flex="50">{{x.person.name}}</p>
+								<p flex="50">{{x.saldo}}€</p>
 							</md-list-item>
 						</md-list>
 					</md-card-content>
