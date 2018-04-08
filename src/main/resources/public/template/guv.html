@@ -36,13 +36,13 @@
 				            <label>Genaue Berechnung der Kosten für:</label>
 				             <md-select ng-model="guv.payer" placeholder="Name" required>
 				              <md-option></md-option>
-							  <md-option ng-repeat="person in costCentre.participants" value="{{person}}">{{person.name}}</md-option>
+							  <md-option ng-repeat="person in costCentre.participants track by person.id" value="{{person}}">{{person.name}}</md-option>
 							 
 				            </md-select>
 				          </md-input-container>
 						</md-card-title-text>
 							<md-card-actions layout="row" layout-align="end center">
-						<md-button  ng-disabled="!guv.payer || guv.person" class="md-raised md-accent"  ng-click="guv.changed(guv.payer)">zeigen</md-button>
+						<md-button  ng-disabled="!guv.payer" class="md-raised md-accent"  ng-click="guv.changed(guv.payer)">zeigen</md-button>
 					</md-card-actions>
 					</md-card-title>
 					<md-card-content layout="row">

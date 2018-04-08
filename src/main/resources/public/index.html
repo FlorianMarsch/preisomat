@@ -160,8 +160,9 @@
 					
 					scope.guv= {payer:null,g:[],v:[]};
 					scope.guv.changed= function(element){
+						var me = scope.guv.changed;
 						
-						scope.guv= {payer:element, person:JSON.parse(element),g:[],v:[],charged:0, payed:0};
+						scope.guv= {changed:me, payer:element, person:JSON.parse(element),g:[],v:[],charged:0, payed:0};
 						console.log(scope.guv);
 						scope.costCentre.costs.forEach(function(element) {
 							  if(element.payer.id == scope.guv.person.id){
