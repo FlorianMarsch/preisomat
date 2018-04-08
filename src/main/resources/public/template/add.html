@@ -43,13 +43,13 @@
 				          </md-input-container>
 				          <md-input-container >
 				            <label>Wie ?</label>
-				            <div>
+				            <p>
 				           <md-switch ng-model="new.fixcost" >
 							  {{new.fixcost ? 'pro Tag' : 'pro Person' }}
 							</md-switch>
-							</div>
+							</p>
 				          </md-input-container>
-				          
+				          <div>
 				          <md-list flex="25" ng-if="!new.fixcost">
 					        <md-subheader class="md-no-sticky">
 					          Wer?
@@ -62,9 +62,9 @@
 					            <h3>{{ p.name }}</h3> 
 					          </div>
 					          
-					      </md-list-item>
-					    </md-list>
-				          
+						      </md-list-item>
+						    </md-list>
+				          </div>
 				          
 				        
 				          
