@@ -37,12 +37,17 @@
 					<md-card-content>
 						<md-list flex>
 							<md-list-item ng-repeat="x in costCentre.costs" ng-click="null">
-								<p>{{x.description}} {{x.price}}€</p>
+								<p>{{x.payer.name}} bezahlt {{x.price}}€ für {{x.description}} 
 								<i class="material-icons" ng-if="x.fixcost">timer</i>
 								<i class="material-icons" ng-if="!x.fixcost">person</i>
-								<md-chips>
-									<md-chip>{{x.payer.name}}</md-chip>
-								</md-chips>
+								</p>
+								
+								
+								 <md-button class="md-icon-button" ng-click="editCost(x)">
+							      	<i class="material-icons" >mode_edit</i>
+							     </md-button>
+								
+								
 							</md-list-item>
 						</md-list>
 					</md-card-content>

@@ -2,6 +2,7 @@ package de.florianmarsch.preisomat.jpa;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -74,6 +75,14 @@ public class CostCentreService {
 			aCost.setPrice(priceEUR);
 			aCost.setPriceSEK(priceSEK);
 			aCost.setSekExchange(sekExchange);
+		}
+		
+		Iterator<Cost> iterator = aCostCentre.getCosts().iterator();
+		while (iterator.hasNext()) {
+			Cost cost = (Cost) iterator.next();
+			if(cost.equals(aCost)) {
+				iterator.remove();
+			}
 		}
 		
 		aCostCentre.getCosts().add(aCost);

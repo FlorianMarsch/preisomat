@@ -126,6 +126,17 @@
 						scope.costCentre.participants.push(participant);
 					};
 					
+					
+					scope.editCost = function(cost){
+						scope.new = cost;
+						scope.new.payer = JSON.stringify(scope.new.payer);
+						if(scope.new.nativeCurrency == "SEK"){
+							scope.new.price = scope.new.priceSEK;
+						}
+						scope.new.share = undefined;
+						scope.goto("add");
+					};
+					
 					scope.save = function(){
 
 				 		scope.loading = true;
@@ -190,13 +201,13 @@
 					scope.addToCost = function(element){
 						scope.new.participants.push(element);
 					};
-					scope.removeFromCost = function(p){
+					scope.removeFromCost = function(aParticipant){
 
 						var newParticipants = [];
 						scope.new.participants.forEach(
-							function(pa){
-								if(pa._id !== p._id){
-									newParticipants.push(pa);
+							function(participant){
+								if(participant.id !== aParticipant.id){
+									newParticipants.push(participant);
 								}
 							});
 						scope.new.participants = newParticipants;
