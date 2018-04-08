@@ -144,11 +144,6 @@
 					
 					scope.editCost = function(cost){
 						scope.new = cost;
-						scope.new.payer = JSON.stringify(scope.new.payer);
-						if(scope.new.nativeCurrency == "SEK"){
-							scope.new.price = scope.new.priceSEK;
-						}
-						scope.new.share = undefined;
 						scope.goto("add");
 					};
 					
@@ -192,7 +187,7 @@
 					scope.guv.changed= function(element){
 						var me = scope.guv.changed;
 						
-						scope.guv= {changed:me, payer:element, person:JSON.parse(element),g:[],v:[],charged:0, payed:0};
+						scope.guv= {changed:me, payer:element, person:element,g:[],v:[],charged:0, payed:0};
 						console.log(scope.guv);
 						scope.costCentre.costs.forEach(function(element) {
 							  if(element.payer.id == scope.guv.person.id){
@@ -233,8 +228,8 @@
 					};
 					scope.saveCost = function(){
 
-						scope.new.payer = JSON.parse(scope.new.payer);
-						
+
+						scope.new.share = undefined;
 				 		scope.loading = true;
 						$http({
 					 		method : 'POST',

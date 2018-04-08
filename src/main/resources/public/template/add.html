@@ -28,7 +28,7 @@
 				            <label>Bezahlt von:</label>
 				             <md-select ng-model="new.payer" placeholder="Name" required>
 				              <md-option></md-option>
-							  <md-option ng-repeat="person in costCentre.participants" value="{{person}}">{{person.name}}</md-option>
+							  <md-option ng-repeat="person in costCentre.participants track by person.id" ng-value="person">{{person.name}}</md-option>
 							 
 				            </md-select>
 				          </md-input-container>
