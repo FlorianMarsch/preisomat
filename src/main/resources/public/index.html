@@ -83,7 +83,7 @@
 				    .otherwise({  templateUrl: '/template/404.html'  });
 				});
 			 
-			 app.controller('generalCtrl', function($scope,$timeout, $http,$location) {
+			 app.controller('generalCtrl', function($scope,$timeout, $http,$location,$mdToast) {
 					
 					
 					var timeout = $timeout;
@@ -259,6 +259,15 @@
 					 	}).then(function(response) {
 					 		scope.loading = false;
 					 		scope.costCentre=response.data;
+					 		
+					 		
+					 		$mdToast.show(
+				 			      $mdToast.simple()
+				 			        .textContent('Kosten hinzugefügt!')
+				 			        .position('top right')
+				 			        .hideDelay(3000)
+				 			    );
+					 		
 					 		scope.new = {};
 							scope.new.payer;
 							scope.new.description;
