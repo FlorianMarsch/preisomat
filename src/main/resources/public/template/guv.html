@@ -58,6 +58,7 @@
 					        </md-subheader>
 							<md-list-item ng-repeat="x in guv.g " ng-click="showCost(x.cost)">
 								<p>{{x.description}} +{{x.price | number:2}}€</p>
+								<md-divider ng-hide="$last"></md-divider>
 							</md-list-item>
 						</md-list>
 						<md-list flex ng-show="guv.charged" >
@@ -66,6 +67,7 @@
 					        </md-subheader>
 							<md-list-item ng-repeat="x in guv.v" ng-click="showCost(x.cost)">
 								<p>{{x.description}} -{{x.price | number:2}}€</p>
+								<md-divider ng-hide="$last"></md-divider>
 							</md-list-item>
 						</md-list>
 					</md-card-content>
