@@ -45,6 +45,11 @@ public class Main {
 		server.start(port);
 		
 		server.getBinary("/:view", (request, response) -> {
+			
+			String view = request.params(":view");
+			if(view.equalsIgnoreCase("pwa.manifest")) {
+				return IOUtils.toString(Thread.currentThread().getContextClassLoader().getResourceAsStream("public/pwa.manifest")) ;
+			}
 			return IOUtils.toString(Thread.currentThread().getContextClassLoader().getResourceAsStream("public/index.html")) ;
 		});
 
