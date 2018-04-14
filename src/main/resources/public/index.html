@@ -83,7 +83,7 @@
 				    .otherwise({  templateUrl: '/template/404.html'  });
 				});
 			 
-			 app.controller('generalCtrl', function($scope,$timeout, $http,$location,$mdToast) {
+			 app.controller('generalCtrl', function($scope,$timeout, $http,$location,$mdToast,$window) {
 					
 					
 					var timeout = $timeout;
@@ -113,6 +113,10 @@
 					
 					scope.goto = function(target){
 				 		$location.path("/"+scope.costCentre.id+"/"+target);
+					};
+					
+					scope.back = function(){
+						 $window.history.back();
 					};
 					
 					
@@ -275,7 +279,7 @@
 							scope.new.participants = [];
 							scope.new.price;
 							scope.new.nativeCurrency="EUR";
-					 		$location.path("/"+scope.costCentre.id+"/costs");
+							scope.back()
 					 	},function(error) {
 					 		console.log(error);
 					 	});
