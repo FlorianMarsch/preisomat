@@ -44,7 +44,7 @@ public class Server {
 		Spark.get(path, (request, response) -> {
 			Object result = route.handle(request, response);
 			response.status(200);
-			response.header("Content-Type", "application/json");
+			response.type( "application/json");
 			return mapper.writeValueAsString(result);
 		});
 	};
@@ -62,7 +62,7 @@ public class Server {
 		Spark.post(path, (request, response) -> {
 			Object result = route.handle(request, response);
 			response.status(200);
-			response.header("Content-Type", "application/json");
+			response.type( "application/json");
 			return mapper.writeValueAsString(result);
 		});
 	};

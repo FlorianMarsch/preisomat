@@ -1,6 +1,7 @@
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,8 +48,15 @@ public class Main {
 		server.getBinary("/:view", (request, response) -> {
 			
 			String view = request.params(":view");
-			if(view.equalsIgnoreCase("pwa.manifest")) {
-				return IOUtils.toString(Thread.currentThread().getContextClassLoader().getResourceAsStream("public/pwa.manifest")) ;
+			
+			InputStream resourceAsStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("public/"+view);
+			
+			
+			if(resourceAsStream != null) {
+				if(view.endsWith(".js")) {
+					response.type( "application/javascript");
+				}
+				return IOUtils.toString(resourceAsStream) ;
 			}
 			return IOUtils.toString(Thread.currentThread().getContextClassLoader().getResourceAsStream("public/index.html")) ;
 		});
