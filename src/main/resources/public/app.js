@@ -157,6 +157,7 @@
 					 	}).then(function(response) {
 					 		scope.loading = false;
 					 		scope.costCentre=response.data;
+					 		localStorage.last= scope.costCentre;
 					 		$location.path("/"+scope.costCentre.id+"/costs");
 					 	},function(error) {
 					 		scope.loading = false;
@@ -167,6 +168,7 @@
 		 
 					scope.select = function(x){
 						scope.costCentre = x;
+				 		localStorage.last= scope.costCentre;
 					};
 					
 					scope.new = {};
@@ -235,8 +237,8 @@
 					 	}).then(function(response) {
 					 		scope.loading = false;
 					 		scope.costCentre=response.data;
-					 		
-					 		
+
+					 		localStorage.last= scope.costCentre;
 					 		$mdToast.show(
 				 			      $mdToast.simple()
 				 			        .textContent('Kosten hinzugefügt!')
