@@ -166,7 +166,7 @@
 					};
 					scope.restore = function(){
 						scope.costCentre = localStorage.last;
-						goto("costs");
+						scope.goto("costs");
 					};
 		 
 					scope.select = function(x){
