@@ -1,4 +1,4 @@
-var CACHE_NAME = '2018.4.22-12:35';
+var CACHE_NAME = '2018.4.22-12:54';
 var urlsToCache = [
 	'/',
 	'/app.js',
@@ -73,6 +73,21 @@ self.addEventListener('fetch', function(event) {
 	    );
 	});
 
+self.addEventListener('activate', event => {
+	  // delete any caches that aren't in expectedCaches
+	  // which will get rid of static-v1
+	  event.waitUntil(
+	    caches.keys().then(keys => Promise.all(
+	      keys.map(key => {
+	        if (![CACHE_NAME].includes(key)) {
+	          return caches.delete(key);
+	        }
+	      })
+	    )).then(() => {
+	      console.log(CACHE_NAME + ' now ready to handle fetches!');
+	    })
+	  );
+	});
 
 self.addEventListener('push', function(event) {
 	  console.log('Received a push message', event);
