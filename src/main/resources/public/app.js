@@ -164,8 +164,8 @@
 					 		$location.path("/error");
 					 	});
 					};
-					scope.restore = function(x){
-						scope.costCentre = x;
+					scope.restore = function(){
+						scope.costCentre = localStorage.last;
 						goto("costs);
 					};
 		 
