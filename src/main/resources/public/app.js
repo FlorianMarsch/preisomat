@@ -164,7 +164,10 @@
 					 		$location.path("/error");
 					 	});
 					};
-					
+					scope.restore = function(x){
+						scope.costCentre = x;
+						goto("costs);
+					};
 		 
 					scope.select = function(x){
 						scope.costCentre = x;
