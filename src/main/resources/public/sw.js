@@ -1,4 +1,4 @@
-var CACHE_NAME = '2018.4.22-14:13';
+var CACHE_NAME = '2018.4.22-14:15';
 var urlsToCache = [
 	'/',
 	'/app.js',
@@ -79,7 +79,7 @@ self.addEventListener('activate', event => {
 	  event.waitUntil(
 	    caches.keys().then(keys => Promise.all(
 	      keys.map(key => {
-	        if (![CACHE_NAME].includes(key)) {
+	        if (CACHE_NAME !==key)) {
 	          return caches.delete(key);
 	        }
 	      })
