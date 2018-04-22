@@ -1,8 +1,9 @@
 package de.florianmarsch.preisomat;
 
 import static spark.Spark.exception;
-import static spark.SparkBase.*;
+import static spark.Spark.*;
 
+import java.io.FileNotFoundException;
 import java.util.UUID;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -36,6 +37,14 @@ public class Server {
 				response.body("{\"error\":\"error\"}");
 			}
 		});
+		notFound((req, res) -> {
+			res.status(404);
+            res.redirect("/");
+			res.type("application/json");
+			return "{\"message\":\"Custom 404\"}";
+		});
+		
+		
 	}
 
 	private ObjectMapper mapper;
