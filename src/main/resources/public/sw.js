@@ -1,4 +1,4 @@
-var CACHE_NAME = '2018.4.15-11:17';
+var CACHE_NAME = '2018.4.22-12:35';
 var urlsToCache = [
 	'/',
 	'/app.js',
@@ -28,6 +28,7 @@ self.addEventListener('install', function(event) {
         return cache.addAll(urlsToCache);
       })
   );
+
 });
 
 self.addEventListener('fetch', function(event) {
@@ -70,4 +71,20 @@ self.addEventListener('fetch', function(event) {
 	        );
 	      })
 	    );
+	});
+
+
+self.addEventListener('push', function(event) {
+	  console.log('Received a push message', event);
+
+	  var title = 'Yay a message.';
+	  var body = 'We have received a push message.';
+	  var tag = 'simple-push-demo-notification-tag';
+
+	  event.waitUntil(
+	    self.registration.showNotification(title, {
+	      body: body,
+	      tag: tag
+	    })
+	  );
 	});
