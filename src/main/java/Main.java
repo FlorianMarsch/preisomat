@@ -2,6 +2,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,11 +47,11 @@ public class Main {
 		Integer port = Integer.valueOf(System.getenv("PORT"));
 		server.start(port);
 		
-		server.getBinary("/:view", (request, response) -> {
+server.getBinary("/:view", (request, response) -> {
 			
 			String view = request.params(":view");
-			
 			InputStream resourceAsStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("public/"+view);
+				
 			
 			
 			if(resourceAsStream != null) {
@@ -61,6 +62,18 @@ public class Main {
 			}
 			return IOUtils.toString(Thread.currentThread().getContextClassLoader().getResourceAsStream("public/index.html")) ;
 		});
+		server.getBinary("/fromGoogle/*", (request, response) -> {
+			
+			String view = request.pathInfo();
+			System.out.println(view);
+			InputStream resourceAsStream = null;
+			
+				String requestedResource = view.replace("fromGoogle", "");
+				String resourceUrl = "https://ajax.googleapis.com/ajax/libs"+requestedResource;
+				resourceAsStream = new URL(resourceUrl).openStream();
+				response.type( "application/javascript");
+				return IOUtils.toString(resourceAsStream) ;
+			});
 
 		
 		server.get("/api/costCentres", (request, response) -> {
