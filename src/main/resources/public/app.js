@@ -157,7 +157,7 @@
 					 	}).then(function(response) {
 					 		scope.loading = false;
 					 		scope.costCentre=response.data;
-					 		localStorage.last= scope.costCentre;
+					 		localStorage.last= JSON.stringify(scope.costCentre);
 					 		$location.path("/"+scope.costCentre.id+"/costs");
 					 	},function(error) {
 					 		scope.loading = false;
@@ -165,13 +165,13 @@
 					 	});
 					};
 					scope.restore = function(){
-						scope.costCentre = localStorage.last;
+						scope.costCentre = JSON.parse(localStorage.last);
 						scope.goto("costs");
 					};
 		 
 					scope.select = function(x){
 						scope.costCentre = x;
-				 		localStorage.last= scope.costCentre;
+				 		localStorage.last= JSON.stringify(scope.costCentre);
 					};
 					
 					scope.new = {};
