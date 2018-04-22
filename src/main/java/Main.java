@@ -2,6 +2,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,8 +56,6 @@ public class Main {
 			if(resourceAsStream != null) {
 				if(view.endsWith(".js")) {
 					response.type( "application/javascript");
-				}if(view.endsWith(".png")) {
-					response.type( "image/png");
 				}
 				return IOUtils.toString(resourceAsStream) ;
 			}
