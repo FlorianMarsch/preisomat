@@ -55,6 +55,8 @@ public class Main {
 			if(resourceAsStream != null) {
 				if(view.endsWith(".js")) {
 					response.type( "application/javascript");
+				}if(view.endsWith(".png")) {
+					response.type( "image/png");
 				}
 				return IOUtils.toString(resourceAsStream) ;
 			}
