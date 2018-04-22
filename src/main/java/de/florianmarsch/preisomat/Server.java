@@ -44,7 +44,9 @@ public class Server {
 			return "{\"message\":\"Custom 404\"}";
 		});
 		
-		
+		before((req, res) -> {
+			System.out.println(req.url());
+		});
 	}
 
 	private ObjectMapper mapper;
