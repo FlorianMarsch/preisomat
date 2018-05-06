@@ -1,4 +1,4 @@
-var CACHE_NAME = '2018.4.22-14:15';
+var CACHE_NAME = '2018.5.06-19:45';
 var urlsToCache = [
 	'/',
 	'/app.js',
