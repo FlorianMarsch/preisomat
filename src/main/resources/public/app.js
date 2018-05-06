@@ -200,6 +200,7 @@
 								  scope.guv.charged+=element.share[scope.guv.person.name];
 							  }
 						});
+						scope.goto('guv');
 					};
 					
 					scope.charged = function(element){

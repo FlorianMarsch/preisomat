@@ -40,7 +40,7 @@
 					</md-card-title>
 					<md-card-content>
 						<md-list flex>
-							<md-list-item ng-repeat="x in costCentre.chargings" ng-click="null">
+							<md-list-item ng-repeat="x in costCentre.chargings" ng-click="guv.changed(x.person)">
 								<p flex="50">{{x.person.name}}</p>
 								<p flex="50">{{x.saldo | number:2}}€</p>
 								<md-divider ng-hide="$last"></md-divider>
