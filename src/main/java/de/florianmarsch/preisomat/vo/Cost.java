@@ -53,10 +53,10 @@ public class Cost implements Serializable{
 	@Column
 	private String nativeCurrency;
 	
-	@Column
+	@Column(precision=8, scale=2) 
 	private BigDecimal price;
 
-	@Column
+	@Column(precision=8, scale=2) 
 	private BigDecimal priceSEK;
 	
 	@Column
