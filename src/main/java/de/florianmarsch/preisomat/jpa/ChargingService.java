@@ -55,7 +55,7 @@ public class ChargingService {
 					days = days + person.getDays();
 				}
 				
-				BigDecimal perDay = cost.getPrice().divide(new BigDecimal(days), 2 , RoundingMode.HALF_EVEN);
+				BigDecimal perDay = cost.getPrice().divide(new BigDecimal(days), 4 , RoundingMode.HALF_EVEN);
 				for (Person person : participants) {
 					Charge charge = charges.get(person);
 					BigDecimal share = new BigDecimal(person.getDays());
@@ -75,7 +75,7 @@ public class ChargingService {
 				if(participants.isEmpty()) {
 					perParticipant = BigDecimal.ZERO;
 				}else {
-					perParticipant = cost.getPrice().divide(new BigDecimal(participants.size()), 2, RoundingMode.HALF_EVEN);
+					perParticipant = cost.getPrice().divide(new BigDecimal(participants.size()), 4, RoundingMode.HALF_EVEN);
 				}
 				
 				for (Person person : participants) {
