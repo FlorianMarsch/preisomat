@@ -27,19 +27,23 @@ public class ChargingService {
 			Map<Person, Charge> charges = getEmptyCharging(persons);
 			
 			for (Cost cost : allCosts) {
-				
-				Person payer = cost.getPayer();
-				Charge charge= charges.get(payer);
-				charge.setCharge(charge.getCharge().add(cost.getPrice()));
-				charge.setSaldo(charge.getSaldo().add(cost.getPrice()));
-				
-				
-				cost.setShare(new HashMap<>());
-				
-				if(cost.getFixcost()) {
-					fixCosts.add(cost);
-				}else {
-					variableCosts.add(cost);
+				if(!cost.getParticipants().isEmpty()) {
+					Person payer = cost.getPayer();
+					Charge charge= charges.get(payer);
+					
+						
+					
+					charge.setCharge(charge.getCharge().add(cost.getPrice()));
+					charge.setSaldo(charge.getSaldo().add(cost.getPrice()));
+					
+					
+					cost.setShare(new HashMap<>());
+					
+					if(cost.getFixcost()) {
+						fixCosts.add(cost);
+					}else {
+						variableCosts.add(cost);
+					}
 				}
 			}
 			
