@@ -27,7 +27,7 @@ public class ChargingService {
 			Map<Person, Charge> charges = getEmptyCharging(persons);
 			
 			for (Cost cost : allCosts) {
-				if(!cost.getParticipants().isEmpty()) {
+				if(!cost.getParticipants().isEmpty() && !cost.getFixcost()) {
 					Person payer = cost.getPayer();
 					Charge charge= charges.get(payer);
 					
